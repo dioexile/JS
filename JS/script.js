@@ -1,15 +1,27 @@
-let title = prompt('Как называется ваш проект?');
-let screens = prompt('Какие типы экранов нужно разработать?');
-let screenPrice = +prompt('Сколько будет стоить данная работа?');
-let adaptive = confirm('Нужен ли адаптив на сайте?');
+let title 
+let screens 
+let screenPrice 
+let adaptive
 let rollback = Math.floor(Math.random() * 101);
-let service1 = +prompt('Какой дополнительный тип услуги нужен?');
-let servicePrice1 = +prompt('Сколько это будет стоить?');
-let service2 = +prompt('Какой дополнительный тип услуги нужен?');
-let servicePrice2 = +prompt('Сколько это будет стоить?');
-let fullPrice = screenPrice + servicePrice1 + servicePrice2;
+
+let service1
+let service2
+let servicePrice2
+let fullPrice
 let servicePercentPrice = fullPrice - fullPrice * (rollback/100);
 
+const isNumber =function(num){
+  return !isNaN(parseFloat(num)) && isFinite(num)
+}
+
+const asking = function() {
+  title  = prompt('Как называется ваш проект?')
+  screens = prompt('Какие типы экранов нужно разработать?')
+  do {
+    screenPrice = +prompt('Сколько будет стоить данная работа?')
+  } while (!isNumber(screenPrice));
+  adaptive = confirm('Нужен ли адаптив на сайте?')
+}
 
 if (fullPrice>30000 ) {
 alert('Даем скидку в 10%');
@@ -24,16 +36,28 @@ else if(fullPrice <=0){
 }
 
 
-let getAllServicePrices = function(a, b){
-  return a+b
-};
-let allServicePrices = getAllServicePrices(servicePrice1, servicePrice2)
 
-function getFullPrice(a, b){
-  return a+b
-};
-fullPrice = getFullPrice(screenPrice, allServicePrices);
+const getAllServicePrices = function(){
+  let sum=0
+  for (i = 0; i < 2; i++) {
+    if (i===0){
+    service1 = +prompt('Какой дополнительный тип услуги нужен?')
+    } else if(i===1){
+      service2 = +prompt('Какой дополнительный тип услуги нужен?')
+    }
+    sum+= +prompt('Сколько это будет стоить?');
+    while (!isNumber(sum)){
+      sum= +prompt('Сколько это будет стоить?');
+    }
+    
+  } 
+  return sum
+}
 
+function getFullPrice(screenPrice, allServicePrices){
+  return screenPrice+allServicePrices
+};
+asking()
 function getTitle(string) {
   if (string.charAt(0)==' ') {
     return string.charAt(1).toUpperCase() + string.slice(1);
@@ -47,8 +71,13 @@ function getServicePercentPrices(a, b){
 }
 servicePercentPrice = getServicePercentPrices(fullPrice - servicePercentPrice)
 
-console.log(servicePercentPrice)
+
+
+allServicePrices=getAllServicePrices()
+fullPrice=getFullPrice()
+
+console.log("allServicePrices", allServicePrices)
 console.log(getTitle(title));
-console.log(fullPrice);
 console.log(allServicePrices);
 console.log(screens.split());
+ 
